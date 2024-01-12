@@ -25,6 +25,18 @@ public class ClienteController {
         service.agregarCliente(clienteDto);
     }
 
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void actualizar(@PathVariable Long id, @Valid @RequestBody ClienteDto clienteDto) {
+        service.actualizarCliente(id, clienteDto);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void eliminar(@PathVariable Long id) {
+        service.eliminarCliente(id);
+    }
+
     @GetMapping
     public ResponseEntity<List<ClienteDto>> encontrarTodos() {
         return ResponseEntity.ok(service.encontrarTodos());

@@ -9,23 +9,27 @@ import java.io.Serializable;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Persona implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = -6875537261064380618L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "persona_id", nullable = false, unique = true, updatable = false)
     private Long id;
+
     @Column(length = 50, nullable = false)
     private String nombre;
+
     @Enumerated(value = EnumType.STRING)
     @Column(length = 30, nullable = false)
     private Genero genero;
+
     @Column(length = 3, nullable = false)
     private Integer edad;
+
     @Column(length = 10, nullable = false)
     private String identificacion;
+
     @Column(length = 45, nullable = false)
     private String direccion;
+
     @Column(length = 10, nullable = false)
     private String telefono;
 
@@ -100,4 +104,7 @@ public class Persona implements Serializable {
                 ", telefono='" + telefono + '\'' +
                 '}';
     }
+
+    @Serial
+    private static final long serialVersionUID = -6875537261064380618L;
 }
