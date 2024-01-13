@@ -1,6 +1,5 @@
 package com.devsu.cuenta.service;
 
-import com.devsu.cuenta.model.Cuenta;
 import com.devsu.cuenta.model.dto.CuentaDto;
 
 import java.util.List;
@@ -35,7 +34,7 @@ public interface CuentaService {
      * @param id de la cuenta
      * @return Optional de la cuenta
      */
-    Optional<Cuenta> encontrarPorId(Long id);
+    Optional<CuentaDto> encontrarPorId(Long id);
 
     /**
      * Retorna todas las cuentas registrados

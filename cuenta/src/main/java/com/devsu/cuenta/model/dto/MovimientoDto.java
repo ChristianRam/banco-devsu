@@ -1,38 +1,32 @@
-package com.devsu.cuenta.model;
+package com.devsu.cuenta.model.dto;
 
-import jakarta.persistence.*;
+import com.devsu.cuenta.model.TipoMovimiento;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity(name = "movimientos")
-public class Movimiento implements Serializable {
+public class MovimientoDto implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "movimiento_id", nullable = false, unique = true, updatable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDate fecha;
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "tipo_movimiento", length = 10, nullable = false)
+    @NotNull
     private TipoMovimiento tipoMovimiento;
 
-    @Column(nullable = false)
+    @NotNull
     private BigDecimal valor;
 
-    @Column(nullable = false)
     private BigDecimal saldo;
 
-    @ManyToOne
-    @JoinColumn(name = "cuenta_id")
-    private Cuenta cuenta;
+    @NotNull
+    private Long cuentaId;
 
-    public Movimiento() {
+    public MovimientoDto() {
     }
 
     public Long getId() {
@@ -75,14 +69,14 @@ public class Movimiento implements Serializable {
         this.saldo = saldo;
     }
 
-    public Cuenta getCuenta() {
-        return cuenta;
+    public Long getCuentaId() {
+        return cuentaId;
     }
 
-    public void setCuenta(Cuenta cuenta) {
-        this.cuenta = cuenta;
+    public void setCuentaId(Long cuentaId) {
+        this.cuentaId = cuentaId;
     }
 
     @Serial
-    private static final long serialVersionUID = -5658705231129268184L;
+    private static final long serialVersionUID = -3976503473674705641L;
 }

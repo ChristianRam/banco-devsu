@@ -1,5 +1,6 @@
 package com.devsu.cuenta.exception.handler;
 
+import com.devsu.cuenta.exception.BadRequestException;
 import com.devsu.cuenta.exception.NotFoundException;
 import feign.FeignException;
 import org.slf4j.Logger;
@@ -65,5 +66,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataAccessException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(DATA_ACCESS_EXCEPTION_MESSAGE);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Object> handleBadRequestException(BadRequestException ex) {
+        log.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

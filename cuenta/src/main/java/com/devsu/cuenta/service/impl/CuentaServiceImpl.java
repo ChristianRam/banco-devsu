@@ -67,8 +67,8 @@ public class CuentaServiceImpl implements CuentaService {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Cuenta> encontrarPorId(Long id) {
-        return repository.findById(id);
+    public Optional<CuentaDto> encontrarPorId(Long id) {
+        return repository.findById(id).map(mapper::toDto);
     }
 
     /**

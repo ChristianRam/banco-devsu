@@ -1,6 +1,5 @@
 package com.devsu.cuenta.model.dto;
 
-import com.devsu.cuenta.model.Movimiento;
 import com.devsu.cuenta.model.TipoCuenta;
 import jakarta.validation.constraints.*;
 
@@ -30,7 +29,7 @@ public class CuentaDto implements Serializable {
     @NotNull
     private Long clienteId;
 
-    private List<Movimiento> movimientos;
+    private List<MovimientoDto> movimientos;
 
     public CuentaDto() {
     }
@@ -83,11 +82,11 @@ public class CuentaDto implements Serializable {
         this.clienteId = clienteId;
     }
 
-    public List<Movimiento> getMovimientos() {
+    public List<MovimientoDto> getMovimientos() {
         return movimientos;
     }
 
-    public void setMovimientos(List<Movimiento> movimientos) {
+    public void setMovimientos(List<MovimientoDto> movimientos) {
         this.movimientos = movimientos;
     }
 
