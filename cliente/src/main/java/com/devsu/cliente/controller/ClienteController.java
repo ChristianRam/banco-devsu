@@ -8,9 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/api/clientes")
 public class ClienteController {
 
     private final ClienteService service;
@@ -23,6 +24,12 @@ public class ClienteController {
     @ResponseStatus(HttpStatus.CREATED)
     public void guardar(@Valid @RequestBody ClienteDto clienteDto) {
         service.agregarCliente(clienteDto);
+    }
+
+    @PostMapping("/guardar-lista")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void guardarTodos(@Valid @RequestBody List<ClienteDto> clienteDtos) {
+        service.agregarClientes(clienteDtos);
     }
 
     @PutMapping("/{id}")
@@ -40,5 +47,10 @@ public class ClienteController {
     @GetMapping
     public ResponseEntity<List<ClienteDto>> encontrarTodos() {
         return ResponseEntity.ok(service.encontrarTodos());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<ClienteDto>> encontrarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.encontrarPorId(id));
     }
 }

@@ -27,6 +27,9 @@ public class CuentaDto implements Serializable {
     @NotNull
     private Boolean estado;
 
+    @NotNull
+    private Long clienteId;
+
     private List<Movimiento> movimientos;
 
     public CuentaDto() {
@@ -72,12 +75,33 @@ public class CuentaDto implements Serializable {
         this.estado = estado;
     }
 
+    public Long getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
+    }
+
     public List<Movimiento> getMovimientos() {
         return movimientos;
     }
 
     public void setMovimientos(List<Movimiento> movimientos) {
         this.movimientos = movimientos;
+    }
+
+    @Override
+    public String toString() {
+        return "CuentaDto{" +
+                "id=" + id +
+                ", numeroCuenta='" + numeroCuenta + '\'' +
+                ", tipoCuenta=" + tipoCuenta +
+                ", saldoInicial=" + saldoInicial +
+                ", estado=" + estado +
+                ", clienteId=" + clienteId +
+                ", movimientos=" + movimientos +
+                '}';
     }
 
     @Serial

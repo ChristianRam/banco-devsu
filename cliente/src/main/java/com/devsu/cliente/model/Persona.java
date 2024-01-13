@@ -24,7 +24,7 @@ public class Persona implements Serializable {
     @Column(length = 3, nullable = false)
     private Integer edad;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10, nullable = false, unique = true)
     private String identificacion;
 
     @Column(length = 45, nullable = false)

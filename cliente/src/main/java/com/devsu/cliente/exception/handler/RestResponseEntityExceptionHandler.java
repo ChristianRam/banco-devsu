@@ -3,6 +3,8 @@ package com.devsu.cliente.exception.handler;
 import com.devsu.cliente.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -22,6 +24,10 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     private final Logger log = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 
+    private static final String GENERIC_EXCEPTION_MESSAGE = "Ha ocurrido un error inesperado en el sistema";
+
+    private static final String DATA_ACCESS_EXCEPTION_MESSAGE = "Ha ocurrido un error con uno de los datos";
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
@@ -37,14 +43,20 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGenericException(Exception ex) {
-        log.error("Ha ocurrido un error inesperado en el sistema", ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ha ocurrido un error inesperado en el sistema");
+        log.error(GENERIC_EXCEPTION_MESSAGE, ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GENERIC_EXCEPTION_MESSAGE);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(DataAccessException.class)
+    public ResponseEntity<Object> handleDataIntegrityViolationException(DataAccessException ex) {
+        log.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(DATA_ACCESS_EXCEPTION_MESSAGE);
     }
 
 }

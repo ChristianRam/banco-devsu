@@ -16,7 +16,7 @@ public class Cuenta implements Serializable {
     @Column(name = "cuenta_id", nullable = false, unique = true, updatable = false)
     private Long id;
 
-    @Column(name = "numero_cuenta", length = 20, nullable = false)
+    @Column(name = "numero_cuenta", length = 20, unique = true, nullable = false)
     private String numeroCuenta;
 
     @Enumerated(value = EnumType.STRING)
@@ -28,6 +28,9 @@ public class Cuenta implements Serializable {
 
     @Column(nullable = false)
     private Boolean estado;
+
+    @Column(name = "cliente_id", nullable = false, updatable = false)
+    private Long clienteId;
 
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
     private List<Movimiento> movimientos;
@@ -74,6 +77,14 @@ public class Cuenta implements Serializable {
         return estado;
     }
 
+    public Long getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
+    }
+
     public List<Movimiento> getMovimientos() {
         return movimientos;
     }
@@ -94,6 +105,7 @@ public class Cuenta implements Serializable {
                 ", tipoCuenta=" + tipoCuenta +
                 ", saldoInicial=" + saldoInicial +
                 ", estado=" + estado +
+                ", clienteId=" + clienteId +
                 ", movimientos=" + movimientos +
                 '}';
     }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -30,6 +31,16 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public void agregarCliente(ClienteDto clienteDto) {
         repository.save(mapper.toEntity(clienteDto));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void agregarClientes(List<ClienteDto> clienteDtos) {
+        List<Cliente> clientes = clienteDtos.stream().map(mapper::toEntity).toList();
+
+        repository.saveAll(clientes);
     }
 
     /**
@@ -57,8 +68,8 @@ public class ClienteServiceImpl implements ClienteService {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Cliente> encontrarPorId(Long id) {
-        return repository.findById(id);
+    public Optional<ClienteDto> encontrarPorId(Long id) {
+        return repository.findById(id).map(mapper::toDto);
     }
 
     /**

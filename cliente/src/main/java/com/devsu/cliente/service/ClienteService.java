@@ -1,6 +1,5 @@
 package com.devsu.cliente.service;
 
-import com.devsu.cliente.model.Cliente;
 import com.devsu.cliente.model.dto.ClienteDto;
 
 import java.util.List;
@@ -14,6 +13,13 @@ public interface ClienteService {
      * @param clienteDto cliente a guardar
      */
     void agregarCliente(ClienteDto clienteDto);
+
+    /**
+     * Guarda una lista de clientes
+     *
+     * @param clienteDtos clientes a guardar
+     */
+    void agregarClientes(List<ClienteDto> clienteDtos);
 
     /**
      * Actualiza a un cliente por id
@@ -32,10 +38,10 @@ public interface ClienteService {
     /**
      * Retorna un cliente por id o un optional vacio si no existe un registro
      *
-     * @param id
-     * @return
+     * @param id id del cliente
+     * @return Optional de la cuenta
      */
-    Optional<Cliente> encontrarPorId(Long id);
+    Optional<ClienteDto> encontrarPorId(Long id);
 
     /**
      * Retorna todos los clientes registrados
