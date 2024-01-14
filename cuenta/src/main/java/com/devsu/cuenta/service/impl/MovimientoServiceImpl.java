@@ -21,11 +21,11 @@ import java.util.Optional;
 @Service
 public class MovimientoServiceImpl implements MovimientoService {
 
-    private final Logger log = LoggerFactory.getLogger(MovimientoServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(MovimientoServiceImpl.class);
 
     private static final String MOVIMIENTO_NOT_FOUND_EXCEPTION_MESSAGE = "No se encontro el movimiento con ID: %s";
 
-    private static final String CUENTA_NOT_FOUND_EXCEPTION_MESSAGE = "No se encontro la cuenta con ID: %s";
+    private static final String CUENTA_NOT_FOUND_EXCEPTION_MESSAGE = "No se encontro una cuenta activa con ID: %s";
 
     private final MovimientoRepository repository;
 
@@ -47,10 +47,8 @@ public class MovimientoServiceImpl implements MovimientoService {
     public void agregarMovimiento(MovimientoDto movimientoDto) {
         log.info("Agregando un movimiento nuevo para la cuenta con ID: {}", movimientoDto.getCuentaId());
 
-        //TODO añadir logica para validaciones de el estado
-
-        CuentaDto cuentaDto = cuentaService.encontrarPorId(movimientoDto.getCuentaId()).orElseThrow(
-                () -> new NotFoundException(String.format(CUENTA_NOT_FOUND_EXCEPTION_MESSAGE, movimientoDto.getCuentaId())));
+        CuentaDto cuentaDto = cuentaService.encontrarPorId(movimientoDto.getCuentaId()).filter(cuenta -> cuenta.getEstado().equals(true))
+                .orElseThrow(() -> new NotFoundException(String.format(CUENTA_NOT_FOUND_EXCEPTION_MESSAGE, movimientoDto.getCuentaId())));
 
         validarMovimiento(movimientoDto, cuentaDto);
 
@@ -58,6 +56,8 @@ public class MovimientoServiceImpl implements MovimientoService {
 
         movimientoDto.setSaldo(saldoInicial);
         repository.save(mapper.toEntity(movimientoDto));
+
+        log.info("Actualizando el saldo inicial de la cuenta con el ID: {}", movimientoDto.getCuentaId());
 
         cuentaDto.setSaldoInicial(saldoInicial.add(movimientoDto.getValor()));
         cuentaService.actualizarCuenta(cuentaDto.getId(), cuentaDto);
@@ -67,7 +67,17 @@ public class MovimientoServiceImpl implements MovimientoService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
+    public void agregarMovimientos(List<MovimientoDto> movimientoDtos) {
+        movimientoDtos.forEach(this::agregarMovimiento);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void actualizarMovimiento(Long id, MovimientoDto movimientoDto) {
+        log.info("Actualizando un movimiento nuevo para la cuenta con ID: {}", movimientoDto.getCuentaId());
         encontrarPorId(id)
                 .orElseThrow(() -> new NotFoundException(String.format(MOVIMIENTO_NOT_FOUND_EXCEPTION_MESSAGE, id)));
 
@@ -80,6 +90,7 @@ public class MovimientoServiceImpl implements MovimientoService {
      */
     @Override
     public void eliminarMovimiento(Long id) {
+        log.info("Eliminando el movimiento con el ID: {}", id);
         encontrarPorId(id)
                 .orElseThrow(() -> new NotFoundException(String.format(MOVIMIENTO_NOT_FOUND_EXCEPTION_MESSAGE, id)));
         repository.deleteById(id);

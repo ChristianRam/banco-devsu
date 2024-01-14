@@ -15,6 +15,13 @@ public interface MovimientoService {
     void agregarMovimiento(MovimientoDto movimientoDto);
 
     /**
+     * Guarda una lista de movimientos
+     *
+     * @param movimientoDtos movimientos a guardar
+     */
+    void agregarMovimientos(List<MovimientoDto> movimientoDtos);
+
+    /**
      * Actualiza un movimiento por id
      *
      * @param id id del movimiento

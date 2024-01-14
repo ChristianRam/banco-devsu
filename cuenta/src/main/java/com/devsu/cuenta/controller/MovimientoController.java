@@ -25,6 +25,12 @@ public class MovimientoController {
         service.agregarMovimiento(movimientoDto);
     }
 
+    @PostMapping("/guardar-lista")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void guardarTodos(@Valid @RequestBody List<MovimientoDto> movimientoDtos) {
+        service.agregarMovimientos(movimientoDtos);
+    }
+
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void actualizar(@PathVariable Long id, @Valid @RequestBody MovimientoDto movimientoDto) {

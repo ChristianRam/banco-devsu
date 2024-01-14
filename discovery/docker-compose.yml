@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  discovery_app:
+    container_name: discovery_app
+    image: discovery-app:1.0.0
+    build: .
+    ports:
+      - "8761:8761"

@@ -1,7 +1,9 @@
 package com.devsu.cuenta.service;
 
 import com.devsu.cuenta.model.dto.CuentaDto;
+import com.devsu.cuenta.model.dto.ReporteEstadoDto;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +15,13 @@ public interface CuentaService {
      * @param cuentaDto cuenta a guardar
      */
     void agregarCuenta(CuentaDto cuentaDto);
+
+    /**
+     * Guarda una lista de cuentas
+     *
+     * @param cuentaDtos cuentas a guardar
+     */
+    void agregarCuentas(List<CuentaDto> cuentaDtos);
 
     /**
      * Actualiza una cuenta por id
@@ -42,4 +51,14 @@ public interface CuentaService {
      * @return lista de cuentas
      */
     List<CuentaDto> encontrarTodos();
+
+    /**
+     * Genera un reporte con la informacion de cuentas y movimientos por cuentas de un cliente
+     *
+     * @param fechaInicio rango de fecha inicial a obtener movimientos
+     * @param fechaFin rango de fecha final a obtener movimientos
+     * @param clienteId id del cliente
+     * @return reporte con los datos necesarios
+     */
+    ReporteEstadoDto generarReporteEstado(LocalDate fechaInicio, LocalDate fechaFin, Long clienteId);
 }
